@@ -26,21 +26,24 @@ def make_statement(statement, deceration):
     ends = deceration * 3
     print(f"{ends} {statement} {ends}")
 
-# Main routine starts here
 
+# Main routine starts here
 
 
 # at start of game the comp / user score are both 0
 comp_score = 0
 user_score = 0
+rounds_played = 0
 
 game_goal = int(input("game goal: "))
 
 # play multible rounds until a winner has been found
 while comp_score < game_goal and user_score < game_goal:
 
+    rounds_played += 1
+
     # start of round loop
-    # For testing purposes, ask the user what the points for the user / comp were
+    make_statement(f"round {rounds_played}", "🎲")
 
     # roll the dice for user note if they got a double
     initial_user = initial_points("user")
@@ -134,6 +137,9 @@ while comp_score < game_goal and user_score < game_goal:
     print(f"user score: {user_score} | comp score: {comp_score}")
 
 # end game out put results
+
+make_statement("game over", "🏁")
+
 print()
 if user_score > comp_score:
     print("the user won")
