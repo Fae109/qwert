@@ -1,6 +1,50 @@
 import random
 
 
+def yes_no(question):
+    """checks user response a question is yes / no (y/n), returns 'yes' or 'no' """
+
+    while True:
+
+        response = input(question).lower()
+
+        # make sure user says yes or no
+        if response == "yes" or response == "y":
+            return "yes"
+        elif response == "no" or response == "n":
+            return "no"
+        else:
+            print(" pls enter yes or no")
+
+
+def instructions():
+    """prints instructions"""
+
+    print("""
+*** Instructions ***
+
+roll the die and try to win
+    """)
+
+
+def int_check():
+    """checks user enters an int more than or equale to 13"""
+
+    error = "pls enter a number more then or equale to 13"
+
+    while True:
+        try:
+            response = int(input("what is your game goal"))
+
+            if response < 13:
+                print(error)
+            else:
+                return response
+
+        except ValueError:
+            print(error)
+
+
 def initial_points(which_player):
     """Roll dice twice and return roll / if double points apply"""
 
@@ -35,7 +79,19 @@ comp_score = 0
 user_score = 0
 rounds_played = 0
 
-game_goal = int(input("game goal: "))
+game_history = []
+
+make_statement("welcome to the roll it 13 game", "🍀")
+
+# ask viewer if they want (cheek they say yes / no)
+want_instructions = yes_no("do you want to see the instructions?")
+
+# display the instructions wants to see them...
+if want_instructions == "yes":
+    instructions()
+
+print()
+game_goal = int_check()
 
 # play multible rounds until a winner has been found
 while comp_score < game_goal and user_score < game_goal:
@@ -132,6 +188,13 @@ while comp_score < game_goal and user_score < game_goal:
     comp_score += comp_points
     user_score += user_points
 
+    # generate round results and add to game history list
+    game_results = (f"Round {rounds_played}: user points: {user_points} | " \
+                    f"comp points {comp_points}, {winner} wins (15 | 0)" \
+                    f"({user_score} | {comp_score})")
+
+    game_history.append(game_results)
+
     # show ovrall scores (add this to round loops)
     print("*** game update ***")
     print(f"user score: {user_score} | comp score: {comp_score}")
@@ -142,6 +205,11 @@ make_statement("game over", "🏁")
 
 print()
 if user_score > comp_score:
-    print("the user won")
+    make_statement("the user won", "👍")
 else:
-    print("the comp won")
+    make_statement("the comp won", "💻")
+
+make_statement("game history", "🎲")
+
+for item in game_history:
+    print(item)
